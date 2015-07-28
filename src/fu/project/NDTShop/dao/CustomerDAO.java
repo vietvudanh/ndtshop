@@ -5,6 +5,7 @@
  */
 package fu.project.NDTShop.dao;
 
+import fu.project.NDTShop.config.DB;
 import fu.project.NDTShop.model.Customer;
 import java.sql.Connection;
 import java.sql.Date;
@@ -25,7 +26,7 @@ public class CustomerDAO {
     private Connection conn = null;
     public void open(){
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Class.forName(DB.DRIVER);
 
             conn = DriverManager.getConnection("jdbc:sqlserver://Lucci-PC:1433;databaseName=NDT_Shop", "sa", "1234567");
 

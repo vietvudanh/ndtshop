@@ -15,23 +15,25 @@ public class Product {
     private String productid;
     private String productname;
     private String productdescription;
-    private Image productimage;
+    private String productimage;
     private float productsaleprice;
-    private String orderdetailid;
-    private String staffid;
     private String subcategoryid;
 
     public Product() {
     }
 
-    public Product(String productid, String productname, String productdescription, Image productimage, float productsaleprice, String orderdetailid, String staffid, String subcategoryid) {
+    public Product(
+    		String productid, 
+    		String productname, 
+    		String productdescription, 
+    		String productimage, 
+    		float productsaleprice, 
+    		String subcategoryid) {
         this.productid = productid;
         this.productname = productname;
         this.productdescription = productdescription;
         this.productimage = productimage;
         this.productsaleprice = productsaleprice;
-        this.orderdetailid = orderdetailid;
-        this.staffid = staffid;
         this.subcategoryid = subcategoryid;
     }
 
@@ -59,11 +61,11 @@ public class Product {
         this.productdescription = productdescription;
     }
 
-    public Image getProductimage() {
+    public String getProductimage() {
         return productimage;
     }
 
-    public void setProductimage(Image productimage) {
+    public void setProductimage(String productimage) {
         this.productimage = productimage;
     }
 
@@ -73,22 +75,6 @@ public class Product {
 
     public void setProductsaleprice(float productsaleprice) {
         this.productsaleprice = productsaleprice;
-    }
-
-    public String getOrderdetailid() {
-        return orderdetailid;
-    }
-
-    public void setOrderdetailid(String orderdetailid) {
-        this.orderdetailid = orderdetailid;
-    }
-
-    public String getStaffid() {
-        return staffid;
-    }
-
-    public void setStaffid(String staffid) {
-        this.staffid = staffid;
     }
 
     public String getSubcategoryid() {
@@ -101,7 +87,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{" + "productid=" + productid + ", productname=" + productname + ", productdescription=" + productdescription + ", productimage=" + productimage + ", productsaleprice=" + productsaleprice + ", orderdetailid=" + orderdetailid + ", staffid=" + staffid + ", subcategoryid=" + subcategoryid + '}';
+        return "Product{" + "productid=" + productid + ", productname=" + productname + ", productdescription=" + productdescription + ", productimage=" + productimage + ", productsaleprice=" + productsaleprice + ", subcategoryid=" + subcategoryid + '}';
     }
     
 }
