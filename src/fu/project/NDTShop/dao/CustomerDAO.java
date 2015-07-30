@@ -23,45 +23,73 @@ import java.util.logging.Logger;
  * @author Lucci
  */
 public class CustomerDAO {
-    private Connection conn = null;
-    public void open(){
-        try {
-            Class.forName(DB.DRIVER);
+	private Connection conn = null;
 
-            conn = DriverManager.getConnection("jdbc:sqlserver://Lucci-PC:1433;databaseName=NDT_Shop", "sa", "1234567");
+	public void open() {
+		try {
+			Class.forName(DB.DRIVER);
 
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    public void addCustomer(Customer c) {
+			conn = DriverManager.getConnection(DB.URL, DB.USERNAME, DB.PASSWORD);
+
+		} catch (ClassNotFoundException ex) {
+			Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (SQLException ex) {
+			Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
+
+	// this function is so wrong... damn it.
+	public void addCustomer(Customer c) {
 		open();
-		String sql = "insert into Customer value(?,?,?,?,?,?,?,?,?)";
+		String sql = "insert into Customer value(?,?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement ps;
 		try {
 			ps = (PreparedStatement) conn.prepareStatement(sql);
-			ps.setString(1, c.getCustomerid());
-			ps.setString(2, c.getCustomername());
-			ps.setDate(3, c.getCustomerdob());
-                        ps.setString(4, c.getCustomertel());
-			ps.setString(5, c.getCustomeremail());
-			ps.setString(6, c.getCustomeraddress());
-                        ps.setString(7, c.getCustomercity());
-			ps.setString(8, c.getCustomercountry());
-			ps.setDate(9, c.getCustomerlastestlogin());
+			ps.setInt(1, Integer.parseInt(c.getCustomerid()) );
+			ps.setString(2, c.getCustomerusername());
+			ps.setString(3, c.getCustomerpassword());
+			ps.setString(4, c.getCustomername());
+			ps.setDate(5, c.getCustomerdob());
+			ps.setString(6, c.getCustomertel());
+			ps.setString(7, c.getCustomeremail());
+			ps.setString(8, c.getCustomeraddress());
+			ps.setString(9, c.getCustomercity());
+			ps.setString(10, c.getCustomercountry());
+			ps.setDate(11, c.getCustomerlastestlogin());
+			System.out.println(ps.toString());
 			ps.executeUpdate();
 			conn.close();
 		} catch (SQLException ex) {
-                    Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
-		}finally{
-                    close();
-            }
+			Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			close();
+		}
 	}
-        
-        public List<Customer> getList() {
+	
+	// this function is so wrong... damn it.
+	public boolean addCustomerRegister(Customer c) {
+		open();
+		String sql = "insert into Customer(CustomerUsername, CustomerPassword, CustomerName, CustomerEmail) value(?,?,?,?)";
+		PreparedStatement ps;
+		try {
+			ps = (PreparedStatement) conn.prepareStatement(sql);
+			ps.setString(1, c.getCustomerusername());
+			ps.setString(2, c.getCustomerpassword());
+			ps.setString(3, c.getCustomername());
+			ps.setString(4, c.getCustomeremail());
+			System.out.println(ps.toString());
+			ps.executeUpdate();
+			conn.close();
+		} catch (SQLException ex) {
+			Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+			return false;
+		} finally {
+			close();	
+		}
+		return true;
+	}
+
+	public List<Customer> getList() {
 		open();
 		String sql = "select * from Customer";
 		List<Customer> list = new ArrayList<Customer>();
@@ -69,98 +97,143 @@ public class CustomerDAO {
 			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-                                Customer customer = new Customer();
-                                customer.setCustomerid(rs.getString("CustomerID"));
+				Customer customer = new Customer();
+				customer.setCustomerid(rs.getString("CustomerID"));
+				customer.setCustomerusername(rs.getString("CustomerUsername"));
+				customer.setCustomerpassword(rs.getString("CustomerPassword"));
 				customer.setCustomername(rs.getString("CustomerName"));
-                                customer.setCustomerdob(rs.getDate("CustomerDOB"));
-                                customer.setCustomertel(rs.getString("CustomerTel"));
+				customer.setCustomerdob(rs.getDate("CustomerDOB"));
+				customer.setCustomertel(rs.getString("CustomerTel"));
 				customer.setCustomeremail(rs.getString("CustomerEmail"));
-                                customer.setCustomeraddress(rs.getString("CustomerAddress"));
-                                customer.setCustomercity(rs.getString("CustomerCity"));
+				customer.setCustomeraddress(rs.getString("CustomerAddress"));
+				customer.setCustomercity(rs.getString("CustomerCity"));
 				customer.setCustomercountry(rs.getString("CustomerCountry"));
-                                customer.setCustomerlastestlogin(rs.getDate("CustomerLastestLogin"));
+				customer.setCustomerlastestlogin(rs.getDate("CustomerLastestLogin"));
 				list.add(customer);
 			}
 			conn.close();
 		} catch (SQLException ex) {
-                    Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
-		}finally{
-                    close();
-                }
+			Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			close();
+		}
 		return list;
 	}
-        
-        public void delCustomer(String customerId) {
-                open();
+
+	public void delCustomer(String customerId) {
+		open();
 		try {
-                    PreparedStatement pstmt = conn.prepareStatement(""+ "DELETE FROM Customer WHERE CustomerID =?");
-                        pstmt.setString(1, customerId);
-                        pstmt.executeUpdate();
-                } catch (SQLException ex) {
-                        Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
-                }finally{
-                    close();
-                }
+			PreparedStatement pstmt = conn.prepareStatement("" + "DELETE FROM Customer WHERE CustomerID =?");
+			pstmt.setString(1, customerId);
+			pstmt.executeUpdate();
+		} catch (SQLException ex) {
+			Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			close();
+		}
 
 	}
-        
-        public Customer getCustomer(String custId) {
-                open();
+
+	public Customer getCustomerByUsername(String customerUsername){
+		open();
+		String sql = "select * from Customer where CustomerUsername=?";
+		Customer c = new Customer();
+		try {
+			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
+			ps.setString(1, customerUsername);
+			ResultSet rs = ps.executeQuery();
+			boolean hasRows = false;
+			while (rs.next()) {
+				hasRows = true;
+				String customerId = rs.getString("CustomerID");
+				String username = rs.getString("CustomerUsername");
+				String password = rs.getString("CustomerPassword");
+				String customerName = rs.getString("CustomerName");
+				Date customerDOB = rs.getDate("CustomerDOB");
+				String customerTel = rs.getString("CustomerTel");
+				String customerEmail = rs.getString("CustomerEmail");
+				String CustomerAdd = rs.getString("CustomerAddress");
+				String customerCity = rs.getString("CustomerCity");
+				String customerCountry = rs.getString("CustomerCountry");
+				Date CustomerLastestLogin = rs.getDate("CustomerLastestLogin");
+				c = new Customer(customerId, username, password, customerName, customerDOB, customerTel, customerEmail, CustomerAdd,
+						customerCity, customerCountry, CustomerLastestLogin);
+			}
+			
+			if(!hasRows){
+				return null;
+			}
+
+		} catch (SQLException ex) {
+			Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			close();
+		}
+		return c;
+	}
+	
+	public Customer getCustomer(String custId) {
+		open();
 		String sql = "select * from Customer where CustomerID=?";
 		Customer c = new Customer();
 		try {
 			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
-                        ps.setString(1, custId);
+			ps.setString(1, custId);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				String customerId = rs.getString("CustomerID");
+				String username = rs.getString("CustomerUsername");
+				String password = rs.getString("CustomerPassword");
 				String customerName = rs.getString("CustomerName");
 				Date customerDOB = rs.getDate("CustomerDOB");
-                                String customerTel = rs.getString("CustomerTel");
+				String customerTel = rs.getString("CustomerTel");
 				String customerEmail = rs.getString("CustomerEmail");
 				String CustomerAdd = rs.getString("CustomerAddress");
-                                String customerCity = rs.getString("CustomerCity");
+				String customerCity = rs.getString("CustomerCity");
 				String customerCountry = rs.getString("CustomerCountry");
 				Date CustomerLastestLogin = rs.getDate("CustomerLastestLogin");
-				c = new Customer(customerId, customerName, customerDOB, customerTel, customerEmail, CustomerAdd, customerCity, customerCountry, CustomerLastestLogin);
+				c = new Customer(customerId, username, password, customerName, customerDOB, customerTel, customerEmail, CustomerAdd,
+						customerCity, customerCountry, CustomerLastestLogin);
 			}
-			
+
 		} catch (SQLException ex) {
-                        Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
-		}finally{
-                    close();
-                }
+			Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			close();
+		}
 		return c;
 	}
-  
-        public void updateCustomer(Customer c) {
+
+	public void updateCustomer(Customer c) {
 		open();
-		String sql = "update Customer set CustomerName=?, CustomerDOB=?,CustomerTel=?, CustomerEmail=?,CustomerAddress=?, CustomerCity=?,CustomerCountry=?,CustomerLastestLogin where CustomerID=?";
+		String sql = "update Customer set CustomerName=?, CustomerUsername=?, CustomerPasswrod=?, CustomerDOB=?,CustomerTel=?, CustomerEmail=?,CustomerAddress=?, CustomerCity=?,CustomerCountry=?,CustomerLastestLogin=? where CustomerID=?";
 		try {
 			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
 			ps.setString(1, c.getCustomername());
-			ps.setDate(2, c.getCustomerdob());
-			ps.setString(3, c.getCustomertel());
-                        ps.setString(4, c.getCustomeremail());
-			ps.setString(5, c.getCustomeraddress());
-			ps.setString(6, c.getCustomercity());
-                        ps.setString(7, c.getCustomercountry());
-			ps.setDate(8, c.getCustomerlastestlogin());
+			ps.setString(2, c.getCustomerusername());
+			ps.setString(3, c.getCustomerpassword());
+			ps.setDate(3, c.getCustomerdob());
+			ps.setString(4, c.getCustomertel());
+			ps.setString(5, c.getCustomeremail());
+			ps.setString(6, c.getCustomeraddress());
+			ps.setString(7, c.getCustomercity());
+			ps.setString(8, c.getCustomercountry());
+			ps.setDate(9, c.getCustomerlastestlogin());
 			ps.executeUpdate();
 		} catch (SQLException ex) {
-                        Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
-		}finally{
-                    close();
-                }
+			Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			close();
+		}
 	}
-    
-    public void close(){
-        if(conn != null){
-            try {
-                conn.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
+
+	public void close() {
+		if (conn != null) {
+			try {
+				conn.close();
+			} catch (SQLException ex) {
+				Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+	}
 }

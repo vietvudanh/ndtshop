@@ -11,6 +11,7 @@
 </head>
 <body>
 	<div class='header'>This is header</div>
+	<div>Logged in as ${sessionScope.user}</div>
 	
 	<div class='container'>
 		<table style="border:solid 1px;">	

@@ -3,9 +3,19 @@
     Created on : Jul 16, 2015, 8:35:54 AM
     Author     : Lucci
 --%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
+<c:choose>
+	<c:when test="${sessionScope.user != null}">
+		Logged in as ${sessionScope.customername}
+		<a href="${contextPath}/logout">Logout</a>
+	</c:when>
+	<c:when test="${sessionScope.user == null}"><a href="${contextPath}/login">Login</a></c:when>
+</c:choose>
 <head>
 <title>NDTShop</title>
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
@@ -513,7 +523,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<div class="footer-text">
 		<div class="container">
 			<div class="footer-main">
-				<p class="footer-class">© 2015 All Rights Reserved | Design by  <a href="http://lakesidegarden.com.vn/" target="_blank">HoangVD01349</a> </p>
+				<p class="footer-class">Â© 2015 All Rights Reserved | Design by  <a href="http://lakesidegarden.com.vn/" target="_blank">HoangVD01349</a> </p>
 			</div>
 		</div>
 		<script type="text/javascript">

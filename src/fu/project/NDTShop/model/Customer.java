@@ -13,6 +13,8 @@ import java.sql.Date;
  */
 public class Customer {
     private String customerid;
+    private String customerusername;
+    private String customerpassword;
     private String customername;
     private Date customerdob;
     private String customertel;
@@ -25,8 +27,10 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(String customerid, String customername, Date customerdob, String customertel, String customeremail, String customeraddress, String customercity, String customercountry, Date customerlastestlogin) {
+    public Customer(String customerid, String customerusername, String customerpassword, String customername, Date customerdob, String customertel, String customeremail, String customeraddress, String customercity, String customercountry, Date customerlastestlogin) {
         this.customerid = customerid;
+        this.customerusername = customerusername;
+        this.customerpassword = customerpassword;
         this.customername = customername;
         this.customerdob = customerdob;
         this.customertel = customertel;
@@ -37,7 +41,23 @@ public class Customer {
         this.customerlastestlogin = customerlastestlogin;
     }
 
-    public String getCustomerid() {
+    public String getCustomerusername() {
+		return customerusername;
+	}
+
+	public void setCustomerusername(String customerusername) {
+		this.customerusername = customerusername;
+	}
+
+	public String getCustomerpassword() {
+		return customerpassword;
+	}
+
+	public void setCustomerpassword(String customerpassword) {
+		this.customerpassword = customerpassword;
+	}
+
+	public String getCustomerid() {
         return customerid;
     }
 
@@ -111,7 +131,7 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer{" + "customerid=" + customerid + ", customername=" + customername + ", customerdob=" + customerdob + ", customertel=" + customertel + ", customeremail=" + customeremail + ", customeraddress=" + customeraddress + ", customercity=" + customercity + ", customercountry=" + customercountry + ", customerlastestlogin=" + customerlastestlogin + '}';
+        return "Customer{" + "customerid=" + customerid + ", customerusername = " + this.customerusername + ", customerpassword = " + this.customerpassword + ", customername=" + customername + ", customerdob=" + customerdob + ", customertel=" + customertel + ", customeremail=" + customeremail + ", customeraddress=" + customeraddress + ", customercity=" + customercity + ", customercountry=" + customercountry + ", customerlastestlogin=" + customerlastestlogin + '}';
     }
     
 }
