@@ -6,28 +6,40 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<link href="css/signin.css" rel="stylesheet" type="text/css"/>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="js/jquery-1.11.0.min.js"></script>
 <title>Insert title here</title>
 </head>
 <body>
-	<div class='header'>Please login</div>
+	<c:import url="/WEB-INF/view/elements/_menu.jsp" />
+	<div class='header'></div>
 	
 	<div class='container'>
-		<div class="message">
-			<c:choose>
-				<c:when test="${message != null}">
-					<c:out value="${message}" />
-				</c:when>
-			</c:choose>
-		</div>
-		<form action="${contextPath}/login" name="login-form" method="post" class="">
-			<label for="username">Username</label>
-			<input name="username" type="text" />
-			<br>
-			<label for="password">Password</label>
-			<input name="password" type="text" />
-			<input type="submit" value="Login">
+		
+		<form class="form-signin" method="post" action="${contextPath}/login">
+			<div class="message">
+				<c:choose>
+					<c:when test="${message != null}">
+						<c:out value="${message}" />
+					</c:when>
+				</c:choose>
+			</div>
+			<h2 class="form-signin-heading">Please sign in</h2>
+			<label for="inputEmail" class="sr-only">Username</label>
+			<input type="text" name="username" id="input-username" class="form-control" placeholder="Username" required="" autofocus="">
+			<label for="inputPassword" class="sr-only">Password</label>
+			<input type="password" name="password" id="password" class="form-control" placeholder="Password" required="">
+			<div class="checkbox">
+			  <label>
+			    <input type="checkbox" value="remember-me"> Remember me
+			  </label>
+			</div>
+			<input class="btn btn-lg btn-primary btn-block" type="submit" value="Login">
+			<a href="${contextPath}/register">Register</a>
 		</form>
-		<a href="${contextPath}/register">Register</a>
+		
 	</div>
 
 </body>

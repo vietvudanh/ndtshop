@@ -55,10 +55,15 @@ public class AuthenticationFilter implements Filter {
 		this.context.log("Requested Resource::"+uri);
         
         HttpSession session = req.getSession(false);
-        if(session.getAttribute("user") == null && !excludeAuthenticate(uri) ){
+        Object user = null;
+        if(session != null){
+        	user = session.getAttribute("user");
+        }
+        if(session == null || user == null && !excludeAuthenticate(uri) ){
             this.context.log("Unauthorized access request");
             request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(req, res);
-        }else{
+        }
+        else{
             // pass the request along the filter chain
             chain.doFilter(request, response);
         }

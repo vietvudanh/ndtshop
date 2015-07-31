@@ -40,10 +40,25 @@
     <servlet-name>RegisterController</servlet-name>
     <url-pattern>/register</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>AdminController</servlet-name>
+    <servlet-class>fu.project.NDTShop.controller.admin.AdminController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminController</servlet-name>
+    <url-pattern>/admin</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>AdminProductController</servlet-name>
+    <servlet-class>fu.project.NDTShop.controller.admin.AdminProductController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminProductController</servlet-name>
+    <url-pattern>/admin/products/*</url-pattern>
+  </servlet-mapping>
   <session-config>
     <session-timeout>30</session-timeout>
   </session-config>
-  
   <filter>
     <filter-name>AuthenticationFilter</filter-name>
     <filter-class>fu.project.NDTShop.filter.AuthenticationFilter</filter-class>

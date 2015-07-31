@@ -1,4 +1,8 @@
 # authentication
 http://www.journaldev.com/1933/java-servlet-filter-example-tutorial
 
-#
+# jstl core
+http://www.tutorialspoint.com/jsp/jsp_standard_tag_library.htm
+
+# bootstrap: for styling and decoration
+http://getbootstrap.com/components/

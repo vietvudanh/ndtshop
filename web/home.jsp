@@ -9,13 +9,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
-<c:choose>
-	<c:when test="${sessionScope.user != null}">
-		Logged in as ${sessionScope.customername}
-		<a href="${contextPath}/logout">Logout</a>
-	</c:when>
-	<c:when test="${sessionScope.user == null}"><a href="${contextPath}/login">Login</a></c:when>
-</c:choose>
+<c:import url="/WEB-INF/view/elements/_menu.jsp"></c:import>
 <head>
 <title>NDTShop</title>
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />

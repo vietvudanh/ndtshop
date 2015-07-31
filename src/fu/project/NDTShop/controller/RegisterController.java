@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fu.project.NDTShop.dao.CustomerDAO;
 import fu.project.NDTShop.model.Customer;
@@ -33,7 +34,13 @@ public class RegisterController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/WEB-INF/view/register.jsp").forward(request, response);
+		HttpSession session = request.getSession();
+		if (session != null && session.getAttribute("user") != null){
+			request.getRequestDispatcher("/WEB-INF/view/register.jsp").forward(request, response);
+		}
+		else{
+			request.getRequestDispatcher("home.jsp").forward(request, response);
+		}
 	}
 
 	/**

@@ -10,21 +10,24 @@
 </head>
 <body>
 	<h1>Register</h1>
-	<c:choose>
-		<c:when test="${message != null}">
-			<c:out value="${message}" />
-		</c:when>
-	</c:choose>
-	<form action="${contextPath}/register" method="post">
+	
+	<form action="${contextPath}/register" method="post" class="form-signin">
+		<div class="message">
+		<c:choose>
+			<c:when test="${message != null}">
+				<c:out value="${message}" />
+			</c:when>
+		</c:choose>
+		</div>
 		<label for"name">Name: </label>
-		<input name="name" type="text" /> </br>
+		<input class="form-control" name="name" type="text" /> </br>
 		<label for"username">Username: </label>
-		<input name="username" type="text" /> </br>
+		<input class="form-control" name="username" type="text" /> </br>
 		<label for"name">Password: </label>
-		<input name="password" type="password" /> </br>
+		<input class="form-control" name="password" type="password" /> </br>
 		<label for"name">Email: </label>
-		<input name="email" type="email" /> </br>
-		<input type="submit" value="Register" />
+		<input class="form-control" name="email" type="email" /> </br>
+		<input type="submit" class="btn btn-lg btn-primary btn-block" value="Register" />
 	</form>
 </body>
 </html>
